@@ -46,11 +46,11 @@ public class DatabaseConnectionHealthCheck implements HealthCheck {
 
     private void simulateDatabaseConnectionVerification() {
         
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+       // try {
+         //   Class.forName("com.mysql.jdbc.Driver").newInstance();
+       // } catch (Exception e) {
+        //    throw new IllegalStateException(e);
+       // }
         
         
         try {
