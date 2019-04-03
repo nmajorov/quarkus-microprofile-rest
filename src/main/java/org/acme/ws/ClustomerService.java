@@ -44,6 +44,7 @@ public class ClustomerService {
    
     @GET
     public Set<Customer> list() {
+         customers.clear(); //clean previous first
          customers.addAll(entityManager.createNamedQuery("Customers.findAll", Customer.class)
                 .getResultList());
          return customers;
