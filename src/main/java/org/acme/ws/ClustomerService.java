@@ -52,9 +52,7 @@ public class ClustomerService {
     @POST
     @Transactional
     public Response add(Customer customer) {
-        if (customer.getID() != null) {
-            throw new WebApplicationException("Id was invalidly set on request.", 422);
-        }
+       
         System.out.println("add customer with id:" + customer.getID());
         
         entityManager.persist(customer);
