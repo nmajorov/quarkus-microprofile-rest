@@ -16,9 +16,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 import org.acme.model.Customer;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.enterprise.context.ApplicationScoped;
@@ -60,11 +63,29 @@ public class ClustomerService {
     @DELETE
     @Transactional
     public Response delete(@PathParam("id") Integer id) {
+        
         Customer entity =  entityManager.getReference(Customer.class,id);
         if (entity == null) {
             throw new WebApplicationException("Customer with id of " + id + " does not exist.", 404);
         }
         entityManager.remove(entity);
+        System.out.println("deleted customer with id:" + id);
+        
         return Response.status(204).build();
+    }
+    
+    @Provider
+    public static class ErrorMapper implements ExceptionMapper<Exception> {
+
+        public Response toResponse(Exception exception) {
+            int code = 500;
+            if (exception instanceof WebApplicationException) {
+                code = ((WebApplicationException) exception).getResponse().getStatus();
+            }
+            return Response.status(code)
+                    .entity(Json.createObjectBuilder().add("error", exception.getMessage()).add("code", code).build())
+                    .build();
+        }
+
     }
 }
