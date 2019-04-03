@@ -12,7 +12,8 @@ oc new-app java \
    --env=AB_JOLOKIA_OFF=true \
    --name='quarkus-microprofile-rest' \
    --env=QUARKUS_DATASOURCE_URL='jdbc:mysql://mysql.nmquarkus.svc.cluster.local/berlin' \
-   --env=QUARKUS_DATASOURCE_USER='niko' --env=QUARKUS_DATASOURCE_PASSWORD='niko'
+   --env=QUARKUS_DATASOURCE_USER='niko' --env=QUARKUS_DATASOURCE_PASSWORD='niko' \
+   --env=JAVA_OPTIONS='-Dquarkus.datasource.url=jdbc:mysql://mysql.nmquarkus.svc.cluster.local/berlin -Dquarkus.datasource.username=niko -Dquarkus.datasource.password=niko'
    #--env=JAVA_APP_JAR='quarkus-microprofile-rest-1.0-SNAPSHOT-runner.jar'
    
 #oc process  -f eap/eap64-basic-s2i.json -p APPLICATION_NAME=helloworld -p SOURCE_REPOSITORY_URL=https://github.com/jboss-developer/jboss-eap-quickstarts -p SOURCE_REPOSITORY_REF=6.4.x -p CONTEXT_DIR=helloworld | oc create -n yourproject -f -
