@@ -55,7 +55,8 @@ public class ClustomerService {
         if (customer.getID() != null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
-
+        System.out.println("add customer with id:" + customer.getID());
+        
         entityManager.persist(customer);
         return Response.ok(customer).status(201).build();
        
@@ -79,6 +80,7 @@ public class ClustomerService {
     public static class ErrorMapper implements ExceptionMapper<Exception> {
 
         public Response toResponse(Exception exception) {
+            exception.printStackTrace();
             int code = 500;
             if (exception instanceof WebApplicationException) {
                 code = ((WebApplicationException) exception).getResponse().getStatus();
