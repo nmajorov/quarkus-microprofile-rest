@@ -24,6 +24,9 @@ public class Customer {
     @Column(length = 40, unique = true)
     private String name;
     
+    @Column
+    private Integer revenue;
+    
     @Id
     Integer ID;
     
@@ -44,8 +47,18 @@ public class Customer {
         ID = iD;
     }
 
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
+    }
+
     @Override
     public String toString() {
-        return "Customer [name=" + name + ", ID=" + ID + "]";
+        return "Customer [name=" + name + ", revenue=" + revenue + ", ID=" + ID + "]";
     }
+
+    
 }
