@@ -15,16 +15,13 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DatabaseConnectionHealthCheck implements HealthCheck {
 
-    @ConfigProperty(name = "database.up", defaultValue = "false")
-    private boolean databaseUp;
-
-    @ConfigProperty(name = "database.url")
+    @ConfigProperty(name = "quarkus.datasource.url")
     private String databaseURL;
     
-    @ConfigProperty(name = "database.user")
+    @ConfigProperty(name = "quarkus.datasource.username")
     private String databaseUser;
     
-    @ConfigProperty(name = "database.password")
+    @ConfigProperty(name = "quarkus.datasource.password")
     private String databasePWD;
 
     
