@@ -5,6 +5,9 @@ import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -14,6 +17,18 @@ public class DatabaseConnectionHealthCheck implements HealthCheck {
 
     @ConfigProperty(name = "database.up", defaultValue = "false")
     private boolean databaseUp;
+
+    @ConfigProperty(name = "database.url")
+    private String databaseURL;
+    
+    @ConfigProperty(name = "database.user")
+    private String databaseUser;
+    
+    @ConfigProperty(name = "database.password")
+    private String databasePWD;
+
+    
+    
 
     @Override
     public HealthCheckResponse call() {
@@ -33,8 +48,30 @@ public class DatabaseConnectionHealthCheck implements HealthCheck {
     }
 
     private void simulateDatabaseConnectionVerification() {
-        if (!databaseUp) {
-            throw new IllegalStateException("Cannot contact database");
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+        
+        
+        try {
+           
+            
+            Connection conn = DriverManager.getConnection(databaseURL+"?" +
+                                           "user="+ databaseUser + "&password="+ databasePWD);
+         
+         
+            System.out.println(conn.getMetaData().getDatabaseProductName() );
+            System.out.println(conn.getMetaData().getDatabaseMajorVersion() );
+           //...
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+           throw new IllegalStateException(ex);
         }
     }
 }
