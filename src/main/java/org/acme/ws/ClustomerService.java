@@ -62,6 +62,7 @@ public class ClustomerService {
 
     @DELETE
     @Transactional
+    @Path("/customers/{id}")
     public Response delete(@PathParam("id") Integer id) {
         
         Customer entity =  entityManager.getReference(Customer.class,id);
